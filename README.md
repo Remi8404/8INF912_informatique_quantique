@@ -9,3 +9,7 @@
 ### Avec UV
 
 `uv sync`
+
+## Démarrer l'Environnement Virtuel
+
+`(Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned)`
