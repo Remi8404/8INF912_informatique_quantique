@@ -12,4 +12,8 @@
 
 ## Démarrer l'Environnement Virtuel
 
-`(Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned)`
+Si l'environnement n'est pas initialisé :
+
+`python -m venv .venv` puis `.venv\Scripts\activate`
+
+Si vous utilisez uv, le venv se démarre automatiquement quand vous ouvrez le dossier depuis un environnement compatible (IDE).
