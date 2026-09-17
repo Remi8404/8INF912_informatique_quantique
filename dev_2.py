@@ -4,14 +4,13 @@ import numpy as np
 from math import sqrt
 import matplotlib.pyplot as plt
 
+from consts import HSH, PLUS
+
 
 def main()->None:
-    # defining arrays    
-    hsh = np.array([[(1+1j)/2, (1-1j)/2],[(1-1j)/2, (1+1j)/2]])
-    plus = np.array([[1/sqrt(2)],[1/sqrt(2)]])
 
     # Matricial multiplication
-    hshp = hsh @ plus
+    hshp = HSH @ PLUS
 
     #plot vector bloch
     plot_bloch_vector((0, 1/sqrt(2), 1/sqrt(2)), title="sphere", coord_type= 'cartesian')
