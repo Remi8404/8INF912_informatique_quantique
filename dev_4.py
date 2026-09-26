@@ -34,7 +34,9 @@ c_reg = ClassicalRegister(5, 'mesure')
 
 qc = QuantumCircuit(c0, a, b, cout, c_reg)
 
-
+#hadamar
+for qubit in a:
+    qc.h(qubit)
 
 #qc.x(a[0])
 #qc.x(a[2])
