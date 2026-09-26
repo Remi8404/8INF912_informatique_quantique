@@ -2,6 +2,8 @@ from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 from qiskit.visualization import plot_histogram
 from qiskit_aer import AerSimulator
 from qiskit import transpile
+from qiskit_aer.noise import NoiseModel, depolarizing_error
+from matplotlib import pyplot as plt
 
 
 #maj 
@@ -32,12 +34,14 @@ c_reg = ClassicalRegister(5, 'mesure')
 
 qc = QuantumCircuit(c0, a, b, cout, c_reg)
 
-qc.x(a[0])
-qc.x(a[2])
 
-qc.x(b[0])
-qc.x(b[1])
-qc.x(b[3])
+
+#qc.x(a[0])
+#qc.x(a[2])
+
+#qc.x(b[0])
+#qc.x(b[1])
+#qc.x(b[3])
 
 qc.barrier()
 
@@ -65,10 +69,24 @@ qc.measure(cout, c_reg[4])
 
 
 #----------------------------------------------------------------------------
+modele_bruit = NoiseModel()
+
+erreur_1q = depolarizing_error(0.02, 1)  # Pour x, h
+erreur_2q = depolarizing_error(0.05, 2)  # Pour cx
+erreur_3q = depolarizing_error(0.10, 3)
+
+modele_bruit.add_all_qubit_quantum_error(erreur_1q, ['x', 'h'])
+modele_bruit.add_all_qubit_quantum_error(erreur_2q, ['cx'])
+modele_bruit.add_all_qubit_quantum_error(erreur_3q, ['ccx'])
+
 aer = AerSimulator()
-compile = transpile(qc, aer)
-job = aer.run(compile, shots=1000)
+compile = transpile(qc, aer, basis_gates=modele_bruit.basis_gates)
+job = aer.run(compile, shots=1000, noise_model=modele_bruit)
 result = job.result()
-counts = result.get_counts(qc)
+counts = result.get_counts(compile)
 
 print(counts)
+
+#----------------------------------------------------------------------------
+plot_histogram(counts)
+plt.show()
